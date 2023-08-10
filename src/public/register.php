@@ -12,7 +12,7 @@ if (empty($_POST)) {
 } else {
     try {
         // 2 - Connexion à la DB
-        require_once 'public/db/connection.php';
+        require_once 'public/db/Database.php';
 
         // 3 - Vérification des données
             // 3.1 - Pas vides ?
@@ -26,6 +26,8 @@ if (empty($_POST)) {
 
         // 4 - Hasher le mot de passe
         $passwordHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+        // TODO : ATTENTION, REMPLACER PAR L'OBJET DATABASE
 
         // 5 - Ajout à la base de données
         $stmt = $pdo->prepare("
