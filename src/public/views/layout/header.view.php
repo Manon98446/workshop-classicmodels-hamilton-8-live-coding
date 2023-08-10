@@ -14,8 +14,8 @@
             <ul>
                 <li><a href="/"><strong>Classic Models</strong></a></li>
             </ul>
-            <ul>
-                <?php if ($_SESSION['user']): ?>
+            <ul>v
+                <?php if (!empty($_SESSION['user'])): ?>
                     Bonjour <?= $_SESSION['user']['username'] ?>
                     <li><a href="/logout.php">Logout</a></li>
                 <?php else: ?>
