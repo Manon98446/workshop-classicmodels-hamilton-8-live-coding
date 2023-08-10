@@ -3,7 +3,7 @@ PHPDocker.io generated environment - Modified by Broodco
 
 Ensure the webserver config on `phpdocker/nginx/nginx.conf` is correct for your project. PHPDocker.io will have
 customised this file according to the front controller location relative to the docker-compose file you chose on the
-generator (by default `public/index.php`).
+generator (by default `index.php`).
 
 Note: you may place the files elsewhere in your project. Make sure you modify the locations for the php-fpm dockerfile,
 the php.ini overrides and nginx config on `docker-compose.yml` if you do so.

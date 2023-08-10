@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-require_once 'public/db/Database.php';
+require_once 'db/Database.php';
 
 class AuthController
 {
@@ -37,14 +37,14 @@ class AuthController
         ];
 
         http_response_code(302);
-        header('location: index.php');
+        header('location: /');
     }
 
     public function showRegistrationForm()
     {
-        include 'public/views/layout/header.view.php';
-        include 'public/views/register.view.php';
-        include 'public/views/layout/footer.view.php';
+        include 'views/layout/header.view.php';
+        include 'views/register.view.php';
+        include 'views/layout/footer.view.php';
     }
 
     public function login(string $usernameInput, string $passwordInput)
@@ -78,18 +78,20 @@ class AuthController
 
         // Redirect to home page
         http_response_code(302);
-        header('location: index.php');
+        header('location: /');
     }
 
     public function showLoginForm()
     {
-        include 'public/views/layout/header.view.php';
-        include 'public/views/login.view.php';
-        include 'public/views/layout/footer.view.php';
+        include 'views/layout/header.view.php';
+        include 'views/login.view.php';
+        include 'views/layout/footer.view.php';
     }
 
     public function logout()
     {
-        
+        unset($_SESSION['user']);
+        http_response_code(302);
+        header('location: /');
     }
 }
