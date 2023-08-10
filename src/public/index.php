@@ -3,12 +3,19 @@ declare(strict_types=1);
 
 session_start();
 
+$productController = new \classes\ProductsController();
+$productController->index();
+
 try {
     // 1 - Connexion à la DB
-    require_once 'public/db/connection.php';
+    require_once 'public/db/Database.php';
+    $db = new Database();
 
     // 2 - Requête SQL pour récupérer la liste des produits
-    $stmt = $pdo->query("SELECT * FROM products LIMIT 20");
+
+    $stmt = $db->query(
+        "SELECT * FROM products LIMIT 20"
+    );
     $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // 3 - Affichage de la liste des produits

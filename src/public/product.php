@@ -3,16 +3,21 @@ declare(strict_types=1);
 
 session_start();
 
+$productController = new \classes\ProductsController();
+
+$productController->show($_GET['productCode']);
+
 try {
     // 1 - Connexion à la DB
-    require_once 'public/db/connection.php';
+    require_once 'public/db/Database.php';
 
     // 2 - Récupérer le produit
+    $db = new Database();
 
-    $stmt = $pdo->prepare("SELECT * FROM products WHERE productCode = :code");
-    $stmt->bindParam(":code", $_GET['productCode']);
-    $stmt->execute();
-
+    $stmt = $db->query(
+        "SELECT * FROM products WHERE productCode = ?",
+        [$_GET['productCode']]
+    );
     $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (empty($product)) {
