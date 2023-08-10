@@ -1,19 +1,17 @@
 <?php
 declare(strict_types=1);
 
+require_once 'public/db/Database.php';
+
 session_start();
 
 if (empty($_POST)) {
     // 1 - Afficher le formulaire
-
     include 'public/views/layout/header.view.php';
     include 'public/views/register.view.php';
     include 'public/views/layout/footer.view.php';
 } else {
     try {
-        // 2 - Connexion à la DB
-        require_once 'public/db/Database.php';
-
         // 3 - Vérification des données
             // 3.1 - Pas vides ?
         if (empty($_POST['username']) || empty($_POST['email']) || empty($_POST['password'])) {
@@ -27,22 +25,21 @@ if (empty($_POST)) {
         // 4 - Hasher le mot de passe
         $passwordHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-        // TODO : ATTENTION, REMPLACER PAR L'OBJET DATABASE
-
         // 5 - Ajout à la base de données
-        $stmt = $pdo->prepare("
-            INSERT INTO users (username, email, password) 
-            VALUES (:username, :email, :password)"
-        );
-        $stmt->bindParam(':username', $username);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $passwordHash);
 
-        $stmt->execute();
+        $db = new Database();
+
+        $stmt = $db->query(
+            "
+                INSERT INTO users (username, email, password) 
+                VALUES (?, ?, ?)
+            ",
+            [$username, $email, $passwordHash]
+        );
 
         // 6 - Connexion automatique
         $_SESSION['user'] = [
-            'id' => $pdo->lastInsertId(),
+            'id' => $db->lastInsertId(),
             'username' => $username,
             'email' => $email
         ];
