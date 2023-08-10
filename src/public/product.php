@@ -3,12 +3,6 @@ declare(strict_types=1);
 
 session_start();
 
-require 'public/classes/ProductsController.php';
-
-$productController = new \classes\ProductsController();
-
-$productController->show($_GET['productCode']);
-
 try {
     // 1 - Connexion à la DB
     require_once 'public/db/Database.php';
