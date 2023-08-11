@@ -5,7 +5,7 @@ namespace Controllers;
 
 use Exception;
 use Models\Database;
-
+use Models\User;
 class AuthController
 {
     private Database $db;
@@ -17,21 +17,16 @@ class AuthController
 
     public function register(string $usernameInput, string $emailInput, string $passwordInput)
     {
-        if (empty($usernameInput) || empty($email) || empty($passwordInput)) {
+        if (empty($usernameInput) || empty($emailInput) || empty($passwordInput)) {
             throw new Exception('Formulaire non complet');
         }
 
         $username = htmlspecialchars($usernameInput);
         $email = filter_var($emailInput, FILTER_SANITIZE_EMAIL);
         $passwordHash = password_hash($passwordInput, PASSWORD_DEFAULT);
-
-        $this->db->query(
-            "
-                INSERT INTO users (username, email, password) 
-                VALUES (?, ?, ?)
-            ",
-            [$username, $email, $passwordHash]
-        );
+        
+        (new User())->userInsert($username, $email, $passwordHash);
+        
 
         $_SESSION['user'] = [
             'id' => $this->db->lastInsertId(),
@@ -58,12 +53,7 @@ class AuthController
 
         $username = htmlspecialchars($usernameInput);
 
-        $stmt = $this->db->query(
-            "SELECT * FROM users WHERE username = ?",
-            [$username]
-        );
-
-        $user = $stmt->fetch();
+        $user = (new User())->userLogin($username);
 
         if (empty($user)) {
             throw new Exception('Mauvais nom d\'utilisateur');
