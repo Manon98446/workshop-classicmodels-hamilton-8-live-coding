@@ -1,7 +1,10 @@
 <?php
 declare(strict_types=1);
 
-require_once 'db/Database.php';
+namespace Controllers;
+
+use Exception;
+use Models\Database;
 
 class AuthController
 {
