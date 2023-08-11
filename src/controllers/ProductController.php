@@ -4,19 +4,10 @@ declare(strict_types=1);
 namespace Controllers;
 
 use Exception;
-use Models\Database;
 use Models\Product;
-use PDO;
 
 class ProductController
 {
-    private Database $db;
-
-    public function __construct()
-    {
-        $this->db = new Database();
-    }
-
     public function index()
     {
         try {
